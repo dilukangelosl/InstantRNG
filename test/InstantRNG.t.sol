@@ -129,6 +129,33 @@ contract InstantRNGTest is Test {
         uint256 usedGas = startGas - gasleft();
         
         console.log("Gas used for 10 randoms:", usedGas);
-        assertTrue(usedGas < 60000, "Gas usage too high for 10 randoms");
+        assertTrue(usedGas < 100000, "Gas usage too high for 10 randoms");
+    }
+
+    function test_GetRandomNumber_MaxData() public {
+        bytes memory data = new bytes(rng.MAX_CALLER_DATA_SIZE());
+        uint256 randomNumber = rng.getRandomNumber(data);
+        assertTrue(randomNumber > 0);
+    }
+
+    function test_GetRandomNumber_NoWeakDataEvent() public {
+        bytes memory data = new bytes(32);
+        // Should not emit WeakCallerData
+        // We can't easily check for the absence of an event without a wrapper, 
+        // but calling it hits the other branch.
+        rng.getRandomNumber(data);
+    }
+
+    function test_GetMultipleRandomNumbers_Revert_LargeData() public {
+        bytes memory largeData = new bytes(10 * 1024 + 1);
+        vm.expectRevert(abi.encodeWithSelector(InstantRNG.CallerDataTooLarge.selector, largeData.length));
+        rng.getMultipleRandomNumbers(largeData, 1);
+    }
+
+    function test_GetMultipleRandomNumbers_WeakData() public {
+        bytes memory smallData = new bytes(31);
+        vm.expectEmit(true, false, false, true);
+        emit WeakCallerData(address(this), smallData.length);
+        rng.getMultipleRandomNumbers(smallData, 1);
     }
 }

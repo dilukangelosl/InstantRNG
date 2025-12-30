@@ -1,0 +1,31 @@
+Warning: `--ir-minimum` enables `viaIR` with minimum optimization, which can result in inaccurate source mappings.
+Only use this flag as a workaround if you are experiencing "stack too deep" errors.
+Note that `viaIR` is production ready since Solidity 0.8.13 and above.
+See more: https://github.com/foundry-rs/foundry/issues/3357
+Compiling 24 files with Solc 0.8.28
+Solc 0.8.28 finished in 2.76s
+Compiler run successful!
+Analysing contracts...
+Running tests...
+
+Ran 11 tests for test/InstantRNG.t.sol:InstantRNGTest
+[PASS] test_GasEfficiency() (gas: 57541)
+[FAIL: Gas usage too high for 10 randoms] test_GasEfficiency_Multi() (gas: 92557)
+[PASS] test_GetMultipleRandomNumbers() (gas: 78694)
+[PASS] test_GetRandomInRange() (gas: 1271605)
+[PASS] test_GetRandomNumber() (gas: 46848)
+[PASS] test_GetRandomNumber_DifferentCallers() (gas: 58361)
+[PASS] test_GetRandomNumber_SequentialCalls() (gas: 53690)
+[PASS] test_Revert_CallerDataTooLarge() (gas: 16418)
+[PASS] test_Revert_InvalidCount() (gas: 19678)
+[PASS] test_Revert_InvalidRange() (gas: 12032)
+[PASS] test_WeakCallerDataEvent() (gas: 48810)
+Suite result: FAILED. 10 passed; 1 failed; 0 skipped; finished in 32.28ms (39.48ms CPU time)
+
+Ran 1 test suite in 589.22ms (32.28ms CPU time): 10 tests passed, 1 failed, 0 skipped (11 total tests)
+
+Failing tests:
+Encountered 1 failing test in test/InstantRNG.t.sol:InstantRNGTest
+[FAIL: Gas usage too high for 10 randoms] test_GasEfficiency_Multi() (gas: 92557)
+
+Encountered a total of 1 failing tests, 10 tests succeeded

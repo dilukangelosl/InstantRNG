@@ -128,10 +128,35 @@ contract InstantRNG is IInstantRNG {
         uint256 currentEntropy = _entropy;
         uint256 currentNonce = _nonce;
 
+        // Pre-hash values that are constant throughout the transaction
+        bytes32 sharedContext = keccak256(
+            abi.encodePacked(
+                block.timestamp,
+                block.prevrandao,
+                block.number,
+                blockhash(block.number - 1),
+                msg.sender,
+                tx.origin,
+                tx.gasprice,
+                callerData,
+                address(this).balance
+            )
+        );
+
         for (uint256 i = 0; i < count; i++) {
             uint256 nonceToUse = currentNonce + i;
             
-            uint256 randomNumber = _calculateRandom(callerData, nonceToUse, currentEntropy, i);
+            // Generate random number using pre-hashed context + varying factors
+            uint256 randomNumber = uint256(
+                keccak256(
+                    abi.encodePacked(
+                        sharedContext,
+                        nonceToUse,
+                        currentEntropy,
+                        i
+                    )
+                )
+            );
             
             randomNumbers[i] = randomNumber;
             

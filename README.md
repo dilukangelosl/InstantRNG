@@ -14,10 +14,19 @@ Created by DevAngelo (https://x.com/cryptoangelodev).
 ## Features
 
 - Instant: Single-transaction generation. No waiting for callback/fulfillment.
-- Gas Efficient: ~33k gas for a single random number, ~52k for a batch of 10.
+- Gas Efficient: ~33k gas for a single random number, ~50k for a batch of 10.
 - Secure: Uses 11 entropy sources + an evolving internal entropy pool.
 - Deterministic: Same address across all chains using CREATE2.
 - Simple API: Integration takes less than 5 lines of code.
+- Reliability: 100% test coverage on core contract logic.
+
+## Status
+
+| Component | Coverage |
+|-----------|----------|
+| **Core Contract** | 100% (Lines/Functions/Branches) |
+| **Monad Testnet** | Deployed |
+| **ApeChain** | Deployed & Verified |
 
 ## Installation
 

@@ -1,0 +1,20 @@
+# Foundry
+cache/
+out/
+lib/
+.gas-snapshot
+foundry.lock
+
+# Environment
+.env
+
+# Broadcast logs
+broadcast/
+
+# IDEs
+.vscode/
+.idea/
+.DS_Store
+
+# Testing
+test-reports/

@@ -43,11 +43,27 @@ cp .env.example .env
 
 Update the `PRIVATE_KEY` and RPC URLs in the `.env` file before deploying.
 
-## Integration Guide
+### Minimal Interface Integration (No Import)
 
-To use Instant RNG in your own contracts, follow these steps:
+If you don't want to install the library as a dependency, you can simply define the minimal interface at the top of your contract file:
 
-### 1. Import the Interface
+```solidity
+interface IInstantRNG {
+    function getRandomInRange(bytes calldata callerData, uint256 min, uint256 max) external returns (uint256);
+    function getRandomNumber(bytes calldata callerData) external returns (uint256);
+    function getMultipleRandomNumbers(bytes calldata callerData, uint256 count) external returns (uint256[] memory);
+}
+
+contract MyDiceGame {
+    IInstantRNG public constant rng = IInstantRNG(0x2F7d61910Cb99764Ae2F751690668d3d3D59449d);
+
+    function roll() external returns (uint256) {
+        return rng.getRandomInRange(abi.encodePacked(msg.sender), 1, 6);
+    }
+}
+```
+
+### 1. Import the Interface (Standard Method)
 
 First, import `IInstantRNG.sol` in your contract.
 

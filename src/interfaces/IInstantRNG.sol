@@ -21,11 +21,7 @@ interface IInstantRNG {
      * @param max Maximum value (inclusive)
      * @return result A random number in range [min, max]
      */
-    function getRandomInRange(
-        bytes calldata callerData,
-        uint256 min,
-        uint256 max
-    ) external returns (uint256 result);
+    function getRandomInRange(bytes calldata callerData, uint256 min, uint256 max) external returns (uint256 result);
 
     /**
      * @notice Generates multiple random numbers in a single call
@@ -33,10 +29,9 @@ interface IInstantRNG {
      * @param count Number of random numbers to generate
      * @return randomNumbers Array of random uint256 numbers
      */
-    function getMultipleRandomNumbers(
-        bytes calldata callerData,
-        uint256 count
-    ) external returns (uint256[] memory randomNumbers);
+    function getMultipleRandomNumbers(bytes calldata callerData, uint256 count)
+        external
+        returns (uint256[] memory randomNumbers);
 
     /**
      * @notice Returns the current nonce

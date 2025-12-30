@@ -13,9 +13,9 @@ contract DeployInstantRNG is Script {
         // Deterministic deployment using CREATE2
         // We use a salt to ensure the same address across different chains
         bytes32 salt = keccak256(abi.encodePacked("InstantRNG_v1"));
-        
+
         InstantRNG rng = new InstantRNG{salt: salt}();
-        
+
         console.log("InstantRNG deployed to:", address(rng));
 
         vm.stopBroadcast();

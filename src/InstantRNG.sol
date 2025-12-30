@@ -53,15 +53,7 @@ contract InstantRNG is IInstantRNG {
     constructor() {
         // Initialize entropy using initial block data
         _entropy = uint256(
-            keccak256(
-                abi.encodePacked(
-                    block.timestamp,
-                    block.prevrandao,
-                    block.number,
-                    block.chainid,
-                    msg.sender
-                )
-            )
+            keccak256(abi.encodePacked(block.timestamp, block.prevrandao, block.number, block.chainid, msg.sender))
         );
     }
 
@@ -92,11 +84,11 @@ contract InstantRNG is IInstantRNG {
     /**
      * @inheritdoc IInstantRNG
      */
-    function getRandomInRange(
-        bytes calldata callerData,
-        uint256 min,
-        uint256 max
-    ) external override returns (uint256 result) {
+    function getRandomInRange(bytes calldata callerData, uint256 min, uint256 max)
+        external
+        override
+        returns (uint256 result)
+    {
         if (max <= min) {
             revert InvalidRange(min, max);
         }
@@ -108,10 +100,11 @@ contract InstantRNG is IInstantRNG {
     /**
      * @inheritdoc IInstantRNG
      */
-    function getMultipleRandomNumbers(
-        bytes calldata callerData,
-        uint256 count
-    ) external override returns (uint256[] memory randomNumbers) {
+    function getMultipleRandomNumbers(bytes calldata callerData, uint256 count)
+        external
+        override
+        returns (uint256[] memory randomNumbers)
+    {
         if (count == 0 || count > MAX_COUNT) {
             revert InvalidCount(count);
         }
@@ -145,21 +138,12 @@ contract InstantRNG is IInstantRNG {
 
         for (uint256 i = 0; i < count; i++) {
             uint256 nonceToUse = currentNonce + i;
-            
+
             // Generate random number using pre-hashed context + varying factors
-            uint256 randomNumber = uint256(
-                keccak256(
-                    abi.encodePacked(
-                        sharedContext,
-                        nonceToUse,
-                        currentEntropy,
-                        i
-                    )
-                )
-            );
-            
+            uint256 randomNumber = uint256(keccak256(abi.encodePacked(sharedContext, nonceToUse, currentEntropy, i)));
+
             randomNumbers[i] = randomNumber;
-            
+
             // Update local entropy for the next iteration in the batch
             currentEntropy = uint256(keccak256(abi.encodePacked(currentEntropy, randomNumber, block.timestamp)));
         }
@@ -181,12 +165,11 @@ contract InstantRNG is IInstantRNG {
     /**
      * @notice Internal function to calculate a random number based on shared entropy
      */
-    function _calculateRandom(
-        bytes calldata callerData,
-        uint256 nonceToUse,
-        uint256 entropyPool,
-        uint256 index
-    ) internal view returns (uint256) {
+    function _calculateRandom(bytes calldata callerData, uint256 nonceToUse, uint256 entropyPool, uint256 index)
+        internal
+        view
+        returns (uint256)
+    {
         return uint256(
             keccak256(
                 abi.encodePacked(

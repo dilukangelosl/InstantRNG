@@ -25,6 +25,14 @@ Created by DevAngelo (https://x.com/cryptoangelodev).
 forge install dilukangelosl/InstantRNG
 ```
 
+### Remappings
+
+To use clean imports, add the following to your `remappings.txt`:
+
+```text
+InstantRNG/=lib/InstantRNG/src/
+```
+
 ## Setup
 
 Create a `.env` file based on the example:
